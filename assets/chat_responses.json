@@ -1,0 +1,10 @@
+{
+    "hello": "Hello! How can I help you today?",
+    "help": "Sure, let me know how I can assist!",
+    "how are you": "I'm just a bot, but I'm here to help you!",
+    "weather": "I can't predict the weather, but you can check a weather app!",
+    "name": "I'm your friendly chatbot!",
+    "food": "I don't eat, but pizza sounds great!",
+    "default": "I didn’t quite understand that. Can you rephrase?"
+  }
+  
