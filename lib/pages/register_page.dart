@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fund_app/pages/auth/auth_service.dart';
+import 'package:fund_app/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -78,6 +79,10 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 12,
           ),
           ElevatedButton(onPressed: register, child: const Text("Register")),
+          GestureDetector(
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage())),
+              child: const Center(child: Text("Already a user? Sign In!")))
         ],
       ),
     );

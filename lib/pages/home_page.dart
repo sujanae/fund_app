@@ -90,27 +90,43 @@ class _HomePageState extends State<HomePage> {
           ListView(
             children: const [
               CampaignWidget(
-                title: "Help Students with Supplies",
+                title: "Student Fund",
+                targetAmount: 123356,
+                currentAmount: 600, // 500 + 100 from donations
+              ),
+              CampaignWidget(
+                title: "Project Prototype Fund",
+                targetAmount: 15000,
+                currentAmount: 500, // 500 from donations
+              ),
+              CampaignWidget(
+                title: "Educational Supplies",
+                targetAmount: 10000,
+                currentAmount: 1000, // 1000 from donations
+              ),
+              CampaignWidget(
+                title: "Final Year Project Fund",
+                targetAmount: 20000,
+                currentAmount: 1000, // 1000 from donations
+              ),
+              CampaignWidget(
+                title: "Laptop for Learning",
+                targetAmount: 45000,
+                currentAmount: 0, // No donations
+              ),
+              CampaignWidget(
+                title: "Online Course Access",
                 targetAmount: 5000,
-                currentAmount: 1500,
+                currentAmount: 500, // 500 from donations
               ),
               CampaignWidget(
-                title: "Build a Library for Local School",
-                targetAmount: 10000,
-                currentAmount: 4000,
-              ),
-              CampaignWidget(
-                title: "For Students Innovative Project",
-                targetAmount: 10000,
-                currentAmount: 0,
-              ),
-              CampaignWidget(
-                title: "Graphics Card for AI/ML Researchers",
-                targetAmount: 1000,
-                currentAmount: 0,
+                title: "Hackathon Registration",
+                targetAmount: 25000,
+                currentAmount: 0, // No donations
               ),
             ],
           ),
+
           // Chatbot widget
           if (_isChatbotVisible)
             Positioned(
