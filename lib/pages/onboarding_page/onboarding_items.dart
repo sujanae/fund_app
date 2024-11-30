@@ -14,7 +14,7 @@ class OnboardingItems {
             "Your small contributions fuel big dreams. Together, let’s support innovative ideas and projects."),
     OnboardingInfo(
         image: "assets/onboarding_project.png",
-        title: "Transform Ideas into Reality",
+        title: "Transform Idea into Reality",
         description:
             "Explore a variety of student-driven campaigns and be part of their journey to success."),
     OnboardingInfo(
