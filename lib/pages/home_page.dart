@@ -67,6 +67,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Refresh function to reload the campaigns when triggered
+  Future<void> _onRefresh() async {
+    await _loadCampaigns(); // Re-fetch campaigns when user pulls to refresh
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,22 +119,25 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: [
-          // Main content - List of campaigns
-          _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : _campaigns.isEmpty
-                  ? const Center(child: Text('No campaigns found'))
-                  : ListView.builder(
-                      itemCount: _campaigns.length,
-                      itemBuilder: (context, index) {
-                        final campaign = _campaigns[index];
-                        return CampaignWidget(
-                          title: campaign['title'] ?? 'No Title',
-                          targetAmount: campaign['target_amount'] ?? 0,
-                          currentAmount: campaign['current_amount'] ?? 0,
-                        );
-                      },
-                    ),
+          // Main content - List of campaigns with pull-to-refresh functionality
+          RefreshIndicator(
+            onRefresh: _onRefresh, // Trigger the refresh function on pull
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _campaigns.isEmpty
+                    ? const Center(child: Text('No campaigns found'))
+                    : ListView.builder(
+                        itemCount: _campaigns.length,
+                        itemBuilder: (context, index) {
+                          final campaign = _campaigns[index];
+                          return CampaignWidget(
+                            title: campaign['title'] ?? 'No Title',
+                            targetAmount: campaign['target_amount'] ?? 0,
+                            currentAmount: campaign['current_amount'] ?? 0,
+                          );
+                        },
+                      ),
+          ),
 
           // Chatbot widget
           if (_isChatbotVisible)
