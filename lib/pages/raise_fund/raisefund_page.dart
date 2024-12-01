@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fund_app/pages/home_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RaiseFundsPage extends StatefulWidget {
   const RaiseFundsPage({Key? key}) : super(key: key);
@@ -13,26 +15,73 @@ class _RaiseFundsPageState extends State<RaiseFundsPage> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _targetAmountController = TextEditingController();
 
-  void _submitForm() {
+  final supabase = Supabase.instance.client;
+
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Collect data from the form
       final title = _titleController.text.trim();
       final description = _descriptionController.text.trim();
       final targetAmount = double.tryParse(_targetAmountController.text.trim());
 
-      // Perform backend submission logic
-      // Example: Send this data to Supabase or any database
+      if (targetAmount == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content:
+                  Text('Invalid target amount. Please enter a valid number.')),
+        );
+        return;
+      }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Campaign created successfully!')),
-      );
+      // Fetch the logged-in user's email
+      final currentUser = supabase.auth.currentUser;
+      if (currentUser == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No user is logged in.')),
+        );
+        return;
+      }
 
-      // Clear form fields after submission
-      _titleController.clear();
-      _descriptionController.clear();
-      _targetAmountController.clear();
+      final userEmail = currentUser.email;
 
-      Navigator.pop(context); // Navigate back to the previous page
+      try {
+        // Insert data into 'campaigns' table
+        final response = await supabase.from('campaigns').insert([
+          {
+            'title': title,
+            'description': description,
+            'goal_amount': targetAmount,
+            'current_amount': 0,
+            'user_email': userEmail, // Store the logged-in user's email
+            'created_at': DateTime.now().toIso8601String(),
+          }
+        ]);
+
+        // Log the full response to inspect its structure
+        print('Supabase Response: ${response.toString()}');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Campaign created successfully!')),
+        );
+
+        // Clear the form fields
+        _titleController.clear();
+        _descriptionController.clear();
+        _targetAmountController.clear();
+
+        // Navigate back to the homepage (assuming it's the previous page)
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const HomePage()), // Replace with your homepage widget
+        );
+        // This will pop the current page off the stack and return to the previous page
+      } catch (e) {
+        print('Error: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
     }
   }
 

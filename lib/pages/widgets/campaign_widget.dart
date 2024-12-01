@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fund_app/pages/payment_page.dart';
+import 'package:fund_app/pages/donation_page/payment_page.dart';
 
 class CampaignWidget extends StatefulWidget {
   final String title;
