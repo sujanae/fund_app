@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fund_app/pages/services/fetch_campaign.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'package:fund_app/pages/auth/auth_service.dart';
+import 'package:fund_app/pages/chat_bot/chat_bot.dart';
+import 'package:fund_app/pages/login_page.dart';
+import 'package:fund_app/pages/user_profile/profile_page.dart';
+import 'package:fund_app/pages/raise_fund/raisefund_page.dart';
 import 'package:fund_app/pages/widgets/campaign_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,34 +17,53 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final supabase = Supabase.instance.client;
-  late Future<List<Map<String, dynamic>>> _campaignsFuture;
+  final authService = AuthService();
+  final SupabaseClient supabase = Supabase.instance.client;
+
+  bool _isChatbotVisible = false;
+  List<Map<String, dynamic>> _campaigns = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _campaignsFuture = fetchCampaigns();
+    _loadCampaigns();
   }
 
-  // Fetch campaigns data from Supabase
-  Future<List<Map<String, dynamic>>> fetchCampaigns() async {
+  Future<void> _loadCampaigns() async {
     try {
-      // Fetch data from the 'campaigns' table
-      final response = await supabase
-          .from('campaigns') // Ensure the table name is correct
-          .select() // Select all columns
-          .execute(); // Execute the query
-
-      if (response.error != null) {
-        // If there was an error, throw it
-        throw response.error!.message;
-      }
-
-      // If successful, return the list of campaigns
-      return List<Map<String, dynamic>>.from(response.data);
+      final campaigns = await fetchCampaigns();
+      setState(() {
+        _campaigns = campaigns;
+        _isLoading = false;
+      });
     } catch (e) {
-      print('Error fetching campaigns: $e');
-      return [];
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error loading campaigns: $e')),
+      );
+    }
+  }
+
+  void _toggleChatbotVisibility() {
+    setState(() {
+      _isChatbotVisible = !_isChatbotVisible;
+    });
+  }
+
+  void _logout() async {
+    try {
+      await authService.signOut();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error logging out: $e')),
+      );
     }
   }
 
@@ -47,31 +73,84 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Campaigns"),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _campaignsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No campaigns available.'));
-          } else {
-            final campaigns = snapshot.data!;
-            return ListView.builder(
-              itemCount: campaigns.length,
-              itemBuilder: (context, index) {
-                final campaign = campaigns[index];
-                return CampaignWidget(
-                  title: campaign['title'] ??
-                      'No Title', // Adjust based on your table schema
-                  targetAmount: campaign['target_amount'] ?? 0,
-                  currentAmount: campaign['current_amount'] ?? 0,
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: const Text("Home"),
+              leading: const Icon(Icons.home),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              title: const Text("Profile"),
+              leading: const Icon(Icons.person),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
                 );
               },
-            );
-          }
-        },
+            ),
+            ListTile(
+              title: const Text("Raise Funds"),
+              leading: const Icon(Icons.add),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RaiseFundsPage()));
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text("Logout"),
+              leading: const Icon(Icons.exit_to_app),
+              onTap: _logout,
+            ),
+          ],
+        ),
+      ),
+      body: Stack(
+        children: [
+          // Main content - List of campaigns
+          _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : _campaigns.isEmpty
+                  ? const Center(child: Text('No campaigns found'))
+                  : ListView.builder(
+                      itemCount: _campaigns.length,
+                      itemBuilder: (context, index) {
+                        final campaign = _campaigns[index];
+                        return CampaignWidget(
+                          title: campaign['title'] ?? 'No Title',
+                          targetAmount: campaign['target_amount'] ?? 0,
+                          currentAmount: campaign['current_amount'] ?? 0,
+                        );
+                      },
+                    ),
+
+          // Chatbot widget
+          if (_isChatbotVisible)
+            Positioned(
+              bottom: 10,
+              right: 10,
+              child: ChatBotWidget(
+                onClose: _toggleChatbotVisibility,
+              ),
+            ),
+
+          // Floating Action Button to toggle chatbot visibility
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: _toggleChatbotVisibility,
+              child: const Icon(Icons.chat),
+            ),
+          ),
+        ],
       ),
     );
   }
