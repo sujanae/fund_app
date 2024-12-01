@@ -131,9 +131,14 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final campaign = _campaigns[index];
                           return CampaignWidget(
+                            campaignId: campaign['campaign_id'].toString(),
                             title: campaign['title'] ?? 'No Title',
-                            targetAmount: campaign['target_amount'] ?? 0,
-                            currentAmount: campaign['current_amount'] ?? 0,
+                            description:
+                                campaign['description'] ?? 'No Description',
+                            targetAmount:
+                                (campaign['goal_amount'] as num).toDouble(),
+                            currentAmount:
+                                (campaign['current_amount'] as num).toDouble(),
                           );
                         },
                       ),
