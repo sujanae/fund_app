@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fund_app/pages/auth/auth_service.dart';
 import 'package:fund_app/pages/chat_bot/chat_bot.dart';
 import 'package:fund_app/pages/login_page.dart';
-import 'package:fund_app/pages/profile_page.dart';
+import 'package:fund_app/pages/user_profile/profile_page.dart';
 import 'package:fund_app/pages/raise_fund/raisefund_page.dart';
 import 'package:fund_app/pages/widgets/campaign_widget.dart';
 

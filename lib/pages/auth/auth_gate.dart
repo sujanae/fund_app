@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fund_app/pages/home_page.dart';
 import 'package:fund_app/pages/login_page.dart';
-import 'package:fund_app/pages/profile_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthGate extends StatelessWidget {
