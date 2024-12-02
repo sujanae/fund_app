@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PaymentPage extends StatefulWidget {
   final String campaignId;
   final String campaignTitle;
   final String campaignDescription;
   final double campaignGoalAmount;
+  final double currentAmount;
   final ValueChanged<int> onDonationComplete;
 
   const PaymentPage({
@@ -13,6 +15,7 @@ class PaymentPage extends StatefulWidget {
     required this.campaignTitle,
     required this.campaignDescription,
     required this.campaignGoalAmount,
+    required this.currentAmount,
     required this.onDonationComplete,
     super.key,
   });
@@ -42,6 +45,7 @@ class _PaymentPageState extends State<PaymentPage> {
     return formatted;
   }
 
+  // Complete donation and update Supabase tables
   void completeDonation() async {
     if (accountNameController.text.isEmpty ||
         accountNumberController.text.isEmpty) {
@@ -55,15 +59,55 @@ class _PaymentPageState extends State<PaymentPage> {
       isLoading = true;
     });
 
-    // Simulate payment processing delay
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Get Supabase client
+      final supabase = Supabase.instance.client;
 
-    setState(() {
-      isLoading = false;
-    });
+      // Step 1: Update `campaigns` table to increment `current_amount`
+      final updatedAmount = widget.currentAmount + selectedAmount;
+      final campaignUpdateResponse = await supabase
+          .from('campaigns')
+          .update({'current_amount': updatedAmount}).eq(
+              'campaign_id', widget.campaignId);
 
-    widget.onDonationComplete(selectedAmount);
-    Navigator.pop(context); // Navigate back after donation
+      if (campaignUpdateResponse.error != null) {
+        throw Exception(campaignUpdateResponse.error!.message);
+      }
+
+      // Step 2: Insert donation into `Donations` table
+      final donationInsertResponse = await supabase.from('Donations').insert({
+        'donation_id': DateTime.now().millisecondsSinceEpoch.toString(),
+        'campaign_id': widget.campaignId,
+        'donar_email': 'donar@example.com', // Replace with actual user email
+        'amount': selectedAmount,
+        'created_at': DateTime.now().toIso8601String(),
+      });
+      if (donationInsertResponse.error != null) {
+        print("Insert failed: ${donationInsertResponse.error!.message}");
+      } else {
+        print("Insert successful!");
+      }
+
+      if (donationInsertResponse.error != null) {
+        throw Exception(donationInsertResponse.error!.message);
+      }
+
+      // Success: Notify parent widget and pop page
+      widget.onDonationComplete(selectedAmount);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Donation successful!")),
+      );
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error processing donation: $e")),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -107,6 +151,14 @@ class _PaymentPageState extends State<PaymentPage> {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Current Amount: \$${widget.currentAmount.toStringAsFixed(2)}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.green,
                         ),
                       ),
                     ],

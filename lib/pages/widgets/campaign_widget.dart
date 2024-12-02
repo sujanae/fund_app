@@ -90,6 +90,7 @@ class _CampaignWidgetState extends State<CampaignWidget> {
                         onDonationComplete: (amount) {
                           updateProgress(amount);
                         },
+                        currentAmount: currentAmount,
                       ),
                     ),
                   );
