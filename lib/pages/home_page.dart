@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fund_app/pages/services/fetch_campaign.dart';
+import 'package:fund_app/pages/support_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:fund_app/pages/auth/auth_service.dart';
@@ -106,6 +107,16 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const RaiseFundsPage()));
+              },
+            ),
+            ListTile(
+              title: const Text("Support and Help"),
+              leading: const Icon(Icons.email),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SupportPage()));
               },
             ),
             const Divider(),
