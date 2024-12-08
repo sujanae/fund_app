@@ -57,7 +57,7 @@ Contributions are welcome! Follow these steps to contribute:
 For inquiries or support, reach out to:
 
 - Email : sujanl.personal7@gmail.com
-- Instagram : _.sujan._
+
 
 
 
