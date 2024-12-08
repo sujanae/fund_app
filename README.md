@@ -26,16 +26,16 @@ This is a mobile application built using Flutter that allows users to create, vi
 
 ### Steps
 
-- Clone this repository:
+- Clone this repository:  
     ```git clone https://github.com/yourusername/fund_app.git```
--  Navigate to the project directory:
+-  Navigate to the project directory:  
     ```cd fund_app```
-- Install dependencies:
+- Install dependencies:  
     ```flutter pub get```
-- Set up your Supabase backend and update the API keys in the lib/constants.dart file:
-    ```const String supabaseUrl = "your-supabase-url";
-       const String supabaseKey = "your-supabase-key";```
-- Run the app:
+- Set up your Supabase backend and update the API keys in the lib/constants.dart file:  
+    ```const String supabaseUrl = "your-supabase-url";```
+    ```const String supabaseKey = "your-supabase-key";```
+- Run the app:  
     ```flutter run```
 
 
