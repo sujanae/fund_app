@@ -1,6 +1,6 @@
 # Overview
 
-    This is a mobile application built using Flutter that allows users to create, view, and donate to fundraising campaigns. The app is powered by Supabase for backend services and PostgreSQL for database management. It features secure authentication, real-time updates, and user-friendly interfaces.
+This is a mobile application built using Flutter that allows users to create, view, and donate to fundraising campaigns. The app is powered by Supabase for backend services and PostgreSQL for database management. It features secure authentication, real-time updates, and user-friendly interfaces.
 
 ## Features
 
