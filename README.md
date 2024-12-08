@@ -32,7 +32,7 @@
     ```cd fund_app```
 3. Install dependencies:  
     ```flutter pub get```
-4. Set up your Supabase backend and update the API keys in the lib/constants.dart file:  
+4. Set up your Supabase backend and update the API keys in the lib/constants.dart file:    
     ```dart
     const String supabaseUrl = "your-supabase-url";
     const String supabaseKey = "your-supabase-key";
@@ -46,9 +46,9 @@ Contributions are welcome! Follow these steps to contribute:
 1. Fork the repository.
 2. Create a feature branch.  
     ```git checkout -b feature-name```
-3. Commit your changes:
+3. Commit your changes:  
     ```git commit -m "Add your message here"```
-4. Push to your fork:
+4. Push to your fork:  
     ```git push origin feature-name```
 5. Open a pull request.
 
