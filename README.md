@@ -26,31 +26,31 @@
 
 ## Steps
 
-- Clone this repository:  
+1. Clone this repository:  
     ```git clone https://github.com/yourusername/fund_app.git```
--  Navigate to the project directory:  
+2.  Navigate to the project directory:  
     ```cd fund_app```
-- Install dependencies:  
+3. Install dependencies:  
     ```flutter pub get```
-- Set up your Supabase backend and update the API keys in the lib/constants.dart file:  
+4. Set up your Supabase backend and update the API keys in the lib/constants.dart file:  
     ```dart
     const String supabaseUrl = "your-supabase-url";
     const String supabaseKey = "your-supabase-key";
-- Run the app:  
+5. Run the app:  
     ```flutter run```
 
 # Contribution
 
 Contributions are welcome! Follow these steps to contribute:
 
-- Fork the repository.
-- Create a feature branch.  
-    ```git checkout -b feature-name
-- Commit your changes:
-    ```git commit -m "Add your message here"
-- Push to your fork:
-    ```git push origin feature-name
-- Open a pull request.
+1. Fork the repository.
+2. Create a feature branch.  
+    ```git checkout -b feature-name```
+3. Commit your changes:
+    ```git commit -m "Add your message here"```
+4. Push to your fork:
+    ```git push origin feature-name```
+5. Open a pull request.
 
 # Contact
 
