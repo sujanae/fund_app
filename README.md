@@ -35,7 +35,7 @@ This is a mobile application built using Flutter that allows users to create, vi
 - Set up your Supabase backend and update the API keys in the lib/constants.dart file:  
     ```dart
     const String supabaseUrl = "your-supabase-url";
-    const String supabaseKey = "your-supabase-key";```
+    const String supabaseKey = "your-supabase-key";
 - Run the app:  
     ```flutter run```
 
