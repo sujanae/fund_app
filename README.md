@@ -1,6 +1,6 @@
 # Overview
 
-This is a mobile application built using Flutter that allows users to create, view, and donate to fundraising campaigns. The app is powered by Supabase for backend services and PostgreSQL for database management. It features secure authentication, real-time updates, and user-friendly interfaces.
+    This is a mobile application built using Flutter that allows users to create, view, and donate to fundraising campaigns. The app is powered by Supabase for backend services and PostgreSQL for database management. It features secure authentication, real-time updates, and user-friendly interfaces.
 
 ## Features
 
@@ -16,15 +16,15 @@ This is a mobile application built using Flutter that allows users to create, vi
 - Database: PostgreSQL
 - Version Control: Git
 
-## Installation
+# Installation
 
     
-### Prerequisites
+## Prerequisites
 
 - Flutter SDK.
 - A Supabase account.
 
-### Steps
+## Steps
 
 - Clone this repository:  
     ```git clone https://github.com/yourusername/fund_app.git```
@@ -39,6 +39,25 @@ This is a mobile application built using Flutter that allows users to create, vi
 - Run the app:  
     ```flutter run```
 
+# Contribution
+
+Contributions are welcome! Follow these steps to contribute:
+
+- Fork the repository.
+- Create a feature branch.  
+    ```git checkout -b feature-name
+- Commit your changes:
+    ```git commit -m "Add your message here"
+- Push to your fork:
+    ```git push origin feature-name
+- Open a pull request.
+
+# Contact
+
+For inquiries or support, reach out to:
+
+- Email : sujanl.personal7@gmail.com
+- Instagram : _.sujan._
 
 
 
