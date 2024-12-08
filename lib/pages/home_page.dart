@@ -166,14 +166,14 @@ class _HomePageState extends State<HomePage> {
             ),
 
           // Floating Action Button to toggle chatbot visibility
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: FloatingActionButton(
-              onPressed: _toggleChatbotVisibility,
-              child: const Icon(Icons.chat),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 20,
+          //   right: 20,
+          //   child: FloatingActionButton(
+          //     onPressed: _toggleChatbotVisibility,
+          //     child: const Icon(Icons.chat),
+          //   ),
+          // ),
         ],
       ),
     );
